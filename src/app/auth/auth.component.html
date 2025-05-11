@@ -1,0 +1,31 @@
+<div class="auth-page">
+  <div class="auth-page--logo">
+    <a href="">
+      <img src="assets/img/logo.png" class="nav-menu-container--logo">
+    </a>
+  </div>
+  <div class="auth-page__container">
+    <div id="reg-window">
+      <div class="main-reg"> 
+          <div id="reg-container">
+              <div id="reg-fields" name="auth-user">
+                  <h1 id="reg-text">
+                      Вход
+                  </h1>
+                  <hr>
+                  <input type="text" placeholder="Логин или email" class="input-field" id="login" name="login">
+                  <p class="correction-field"></p>
+                  <input type="password" placeholder="Пароль" class="input-field" id="password" name="password"> 
+                  <p id="help-text">Еще нет аккаунта? <a href="/registration" id="reg-link"> Попробуйте бесплатно</a></p>
+                  <button
+                    id="button-reg"
+                    (click)="test()"
+                  >
+                    Вход
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+</div>
