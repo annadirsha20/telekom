@@ -7,25 +7,18 @@
   <div class="auth-page__container">
     <div id="reg-window">
       <div class="main-reg"> 
-          <div id="reg-container">
-              <div id="reg-fields" name="auth-user">
-                  <h1 id="reg-text">
-                      Вход
-                  </h1>
-                  <hr>
-                  <input type="text" placeholder="Логин или email" class="input-field" id="login" name="login">
-                  <p class="correction-field"></p>
-                  <input type="password" placeholder="Пароль" class="input-field" id="password" name="password"> 
-                  <p id="help-text">Еще нет аккаунта? <a href="/registration" id="reg-link"> Попробуйте бесплатно</a></p>
-                  <button
-                    id="button-reg"
-                    (click)="test()"
-                  >
-                    Вход
-                  </button>
-              </div>
+        <div id="reg-container">
+          <div id="reg-fields" name="auth-user">
+            <h1 id="reg-text">Вход</h1>
+            <hr>
+            <input type="text" placeholder="Логин или email" class="input-field" id="login" name="login" [(ngModel)]="loginData.login">
+            <p class="correction-field"></p>
+            <input type="password" placeholder="Пароль" class="input-field" id="password" name="password" [(ngModel)]="loginData.password"> 
+            <p id="help-text">Еще нет аккаунта? <a href="/registration" id="reg-link">Попробуйте бесплатно</a></p>
+            <button (click)="onLogin()" id="button-reg">Вход</button>
           </div>
+        </div>
       </div>
-  </div>
+    </div>
   </div>
 </div>

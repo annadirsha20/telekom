@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'nav-menu',
@@ -7,5 +10,20 @@ import { Component } from '@angular/core';
 })
 export class NavMenu {
   title = 'TeleKom';
+  constructor(public authService: AuthService, private router: Router) {}
   
+  appsForm: FormGroup = new FormGroup({
+    title: new FormControl(''),
+    text: new FormControl(''),
+    status: new FormControl(''),
+  })
+
+  ngOnInit() {
+    console.log("gogog", (this.authService))
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/auth']);
+  }
 }

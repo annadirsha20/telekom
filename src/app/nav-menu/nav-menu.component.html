@@ -1,13 +1,28 @@
 <div class="main-window">
   <div class="nav-menu-container">
     <img src="assets/img/logo.png" class="nav-menu-container--logo">
+
     <div class="nav-menu-container__section">
       <a href="#about" class="nav-menu-container__section--attr">О нас</a>
       <div class="nav-menu-container__section--attr">Услуги</div>
       <div class="nav-menu-container__section--attr">Контакты</div>
     </div>
-    <a routerLink="/auth" class="nav-menu-container__section--entrance">Вход</a>
+
+    <div *ngIf="authService.currentUser; else loginLink" class="nav-menu-container__section--entrance user-profile">
+      <!-- Имя пользователя -->
+      <span class="username">{{ authService.currentUser }}</span>
+
+      <!-- Кнопка выхода с простой стрелкой -->
+      <button style="margin-left: 15px;" class="logout-button" (click)="logout()" title="Выйти">
+        ←
+      </button>
+    </div>
+
+    <ng-template #loginLink>
+      <a routerLink="/auth" class="nav-menu-container__section--entrance">Вход</a>
+    </ng-template>
   </div>
+
   <div class="main-text">
     <div class="main-text--attr">
       <div class="main-text--attr__main">ТелеКом</div>
@@ -15,4 +30,5 @@
     </div>
   </div>
 </div>
+
 <app-about></app-about>
