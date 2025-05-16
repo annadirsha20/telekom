@@ -25,10 +25,9 @@ export function createUserController(collectionUsers: any) {
         (req.session as any).user = {
           id: user._id.toString(),
           username: user.username,
-          email: user.email
         };
 
-        return res.json({ message: 'Вход успешен', user: user.username });
+        return res.json({ message: 'Вход успешен', user: user.username, type: user.type, priority: user.priority });
 
       } catch (err) {
         console.error(err);

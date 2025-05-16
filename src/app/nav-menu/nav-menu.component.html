@@ -10,14 +10,16 @@
 
     <div *ngIf="authService.currentUser; else loginLink" class="nav-menu-container__section--entrance user-profile">
       <!-- Имя пользователя -->
-      <span class="username">{{ authService.currentUser }}</span>
+      <a [routerLink]="authService.userType === 'admin' ? '/lk-manager-apps' : '/lk-client'" 
+        class="nav-menu-container__section--attr" style="margin-left: auto;">
+        <span class="username">{{ authService.currentUser }}</span>
+      </a>
 
       <!-- Кнопка выхода с простой стрелкой -->
       <button style="margin-left: 15px;" class="logout-button" (click)="logout()" title="Выйти">
         ←
       </button>
     </div>
-
     <ng-template #loginLink>
       <a routerLink="/auth" class="nav-menu-container__section--entrance">Вход</a>
     </ng-template>

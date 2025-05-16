@@ -14,8 +14,8 @@ export class AppComponent {
     this.authService.loadUserFromStorage();
   }
 
-  isAuthRoute(): boolean {
-    return this.router.url === '/auth';
+  isUnavailebleRoute(): boolean {
+    return this.router.url === '/auth' || this.router.url === '/lk-client' || this.router.url === '/lk-manager-apps' || this.router.url === '/lk-manager-apps-all';
   }
 
 }

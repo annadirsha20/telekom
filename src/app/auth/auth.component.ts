@@ -24,9 +24,17 @@ export class AuthPage {
     this.http.post(`${this.apiUrl}/login`, this.loginData, { withCredentials: true })
       .subscribe({
         next: (response: any) => {
-          console.log('Успешный вход', response);
+          console.log("TEST")
+          console.log(response)
           this.authService.currentUser = response.user;
-          this.router.navigate(['/nav']);
+          this.authService.userType = response.type;
+          this.authService.userPriority = response.priority;
+
+          if (this.authService.userType === 'admin') {
+            this.router.navigate(['/lk-manager-apps']);
+          } else {
+            this.router.navigate(['/lk-client']);
+          }
         },
         error: (error) => {
           console.error('Ошибка входа', error);

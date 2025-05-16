@@ -19,7 +19,6 @@ export class NavMenu {
   })
 
   ngOnInit() {
-    console.log("gogog", (this.authService))
   }
 
   logout() {

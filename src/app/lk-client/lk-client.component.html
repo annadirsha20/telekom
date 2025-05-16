@@ -1,0 +1,45 @@
+<div class="auth-page">
+  <div class="auth-page--logo">
+    <a href="">
+      <img src="assets/img/logo.png" class="nav-menu-container--logo" alt="Logo">
+    </a>
+    <a class="nav-menu-container__section--attr" style="margin-left: auto;">
+      <span class="username">{{ authService.currentUser }}</span>
+    </a>
+  </div>
+
+  <div class="dashboard">
+    <div class="form-section">
+      <div class="main-cont">
+        <p class="title-lk">Новая заявка</p>
+
+        <form (ngSubmit)="onSubmit()" class="application-form">
+          <div class="form-group">
+            <label for="title">Заголовок</label>
+            <input type="text" id="title" name="title" [(ngModel)]="title" required />
+          </div>
+
+          <div class="form-group">
+            <label for="description">Описание</label>
+            <textarea id="description"  name="description" rows="5" [(ngModel)]="description" required></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">Отправить</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="apps-section">
+      <div class="applications">
+        <div *ngFor="let app of applications" class="app">
+          <div class="app-header">
+            <span class="status-indicator" [class]="getStatusClass(app.status)"></span>
+            <p class="title-app">{{ app.title }}</p>
+          </div>
+          <p>{{ app.text }}</p>
+          <small>Создано: {{ app.createdAt | date:'dd.MM.yyyy HH:mm' }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

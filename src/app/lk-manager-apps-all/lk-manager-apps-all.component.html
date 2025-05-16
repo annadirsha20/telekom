@@ -1,0 +1,35 @@
+<div class="auth-page">
+  <div class="dashboard">
+
+    <!-- Боковое меню -->
+    <div class="sidebar">
+      <div class="sidebar-item" routerLink="/lk-manager-apps">Мои заявки</div>
+      <div class="sidebar-item active" routerLink="/lk-manager-apps-all">Все заявки</div>
+    </div>
+
+    <!-- Основная часть с заявками -->
+    <div class="apps-section">
+      <p class="title-lk">Все заявки</p>
+
+      <div class="applications">
+        <div *ngFor="let app of applications" class="app">
+          <div class="app-header">
+            <span class="status-indicator" [class]="getStatusClass(app.status)"></span>
+            <p class="title-app">{{ app.title }}</p>
+
+            <div class="app-actions">
+              <div class="author">
+                <strong>Автор:</strong> {{ app.owner }}
+              </div>
+
+              <button class="assign-btn" (click)="assignToMe(app)">Назначить</button>
+            </div>
+          </div>
+
+          <p>{{ app.text }}</p>
+          <small>Создано: {{ app.createdAt | date:'dd.MM.yyyy HH:mm' }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

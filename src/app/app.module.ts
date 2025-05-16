@@ -8,13 +8,19 @@ import { NavMenu } from './nav-menu/nav-menu.component';
 import { About } from './about/about.component';
 import { AppComponent } from './app.component';
 import { AuthPage } from './auth/auth.component';
+import { LkClientPage } from './lk-client/lk-client.component';
+import { LkManagerAppsPage } from './lk-manager-apps/lk-manager-apps.component';
+import { LkManagerAppsAllPage } from './lk-manager-apps-all/lk-manager-apps-all.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenu,
     About,
-    AuthPage
+    AuthPage,
+    LkClientPage,
+    LkManagerAppsPage,
+    LkManagerAppsAllPage
   ],
   imports: [
     BrowserModule,
