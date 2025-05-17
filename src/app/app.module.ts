@@ -11,6 +11,8 @@ import { AuthPage } from './auth/auth.component';
 import { LkClientPage } from './lk-client/lk-client.component';
 import { LkManagerAppsPage } from './lk-manager-apps/lk-manager-apps.component';
 import { LkManagerAppsAllPage } from './lk-manager-apps-all/lk-manager-apps-all.component';
+import { Goods } from './goods/goods.component';
+import { Contacts } from './contacts/contacts.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { LkManagerAppsAllPage } from './lk-manager-apps-all/lk-manager-apps-all.
     AuthPage,
     LkClientPage,
     LkManagerAppsPage,
-    LkManagerAppsAllPage
+    LkManagerAppsAllPage,
+    Goods,
+    Contacts
   ],
   imports: [
     BrowserModule,

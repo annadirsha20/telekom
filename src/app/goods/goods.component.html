@@ -1,0 +1,23 @@
+<div class="about-main" id="goods">
+  <div class="about-main--container">
+    <div class="about-main--container--start">Товары</div>
+
+    <div class="carousel-container">
+      <button class="carousel-btn prev" (click)="prev()" [disabled]="currentIndex <= 0">&#10094;</button>
+
+      <div class="carousel-track" #carouselTrack>
+        <div class="carousel-item" *ngFor="let device of devices">
+          <img 
+            [src]="'assets/img/devices/' + device.id + '.webp'" 
+            [alt]="device.name"
+            class="device-img"
+          >
+          <h3 class="device-name">{{ device.name }}</h3>
+          <p class="device-description">{{ device.description }}</p>
+        </div>
+      </div>
+
+      <button class="carousel-btn next" (click)="next()" [disabled]="currentIndex >= devices.length - 3">&#10095;</button>
+    </div>
+  </div>
+</div>

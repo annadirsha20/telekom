@@ -9,7 +9,9 @@ interface Application {
   status: 'new' | 'in progress' | 'closed';
   owner: string;
   createdAt: Date;
+  appointed: string;
   isVip: boolean;
+  previousStatus?: 'new' | 'in progress' | 'closed';
 }
 
 @Component({
@@ -36,7 +38,8 @@ export class LkManagerAppsPage implements OnInit {
         next: (apps) => {
           this.applications = apps.map(app => ({
             ...app,
-            createdAt: new Date(app.createdAt)
+            createdAt: new Date(app.createdAt),
+            previousStatus: app.status
           }));
         },
         error: (err) => {
@@ -50,8 +53,11 @@ export class LkManagerAppsPage implements OnInit {
   }
 
   onStatusChange(app: Application) {
+    const previousStatus = app.previousStatus || app.status;
+
     this.http.patch(`http://localhost:5000/api/applications/${app._id}`, {
-      status: app.status
+      status: app.status,
+      prevStatus: previousStatus
     }, { withCredentials: true }).subscribe({
       next: () => {
         this.loadApplications();
@@ -67,12 +73,16 @@ export class LkManagerAppsPage implements OnInit {
     const confirmReject = confirm('Вы уверены, что хотите отказаться от этой заявки?');
     if (!confirmReject) return;
 
+    const isVip = app.isVip;
+    const cost = isVip ? 5 : 1;
+
     this.http.patch(`http://localhost:5000/api/applications/set/${app._id}`, {
+      appointedPrev: app.appointed,
       appointed: null,
-      status: "new"
+      status: 'new',
+      loadChange: -cost // передаём разницу нагрузки
     }, { withCredentials: true }).subscribe({
       next: () => {
-        console.log('Вы отказались от заявки');
         this.loadApplications(); // обновляем список
       },
       error: (err) => {

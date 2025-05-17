@@ -10,7 +10,6 @@ async function assignFromPool(
   usersCollection: Collection,
   username: string
 ): Promise<boolean> {
-  console.log('BBBBBBBBBBBBBBBB');
 
   try {
   const poolApp = await applicationsCollection
@@ -19,10 +18,7 @@ async function assignFromPool(
     .limit(1)
     .next();
 
-    console.log('aAAAAAAAAAAAAAAA');
-
     if (!poolApp) {
-          console.log(poolApp)
       return false;
     }
 
@@ -172,7 +168,7 @@ export function createAppController(applicationsCollection: Collection, usersCol
     updateApplicationStatus: async (req: Request, res: Response) => {
       try {
         const { id } = req.params;
-        const { status } = req.body;
+        const { status, prevStatus } = req.body;
 
         if (!['new', 'in progress', 'closed'].includes(status)) {
           return res.status(400).json({ message: 'Неверный статус' });
@@ -187,26 +183,39 @@ export function createAppController(applicationsCollection: Collection, usersCol
         const usernameManager = app.appointed;
         const cost = app.isVip ? 5 : 1;
 
-        if (status === 'closed') {
-          await usersCollection.updateOne(
-            { username: usernameManager },
-            { $inc: { load: -cost } }
-          );
-          // Пытаемся взять заявку из пула
-          await assignFromPool(applicationsCollection, usersCollection, usernameManager);
-        }
-        else {
-          await usersCollection.updateOne(
-            { username: usernameManager },
-            { $inc: { load: +cost } }
-          );
+        // Считаем, нужно ли изменить нагрузку
+        const wasActive = ['new', 'in progress'].includes(prevStatus);
+        const isActive = ['new', 'in progress'].includes(status);
+
+        let loadDiff = 0;
+
+        if (!wasActive && isActive) {
+          loadDiff = +cost;
+        } else if (wasActive && !isActive) {
+          loadDiff = -cost;
+        } else if (wasActive && isActive) {
+          loadDiff = 0;
+        } else {
+          loadDiff = 0;
         }
 
-        // Обновляем статус
+        if (loadDiff !== 0) {
+          await usersCollection.updateOne(
+            { username: usernameManager },
+            { $inc: { load: loadDiff } }
+          );
+
+          console.log(`Load ${usernameManager} изменён на ${loadDiff}`);
+        }
+
         await applicationsCollection.updateOne(
           { _id: new ObjectId(id) },
           { $set: { status } }
         );
+
+        if (status === 'closed') {
+          await assignFromPool(applicationsCollection, usersCollection, usernameManager);
+        }
 
         return res.status(200).json({ message: 'Статус успешно обновлён' });
 
@@ -253,12 +262,30 @@ export function createAppController(applicationsCollection: Collection, usersCol
         if (result.matchedCount === 0) {
           return res.status(404).json({ message: 'Заявка не найдена' });
         }
+        
+        // Если есть назначенное лицо и была указана нагрузка
+        if (updateData.appointedPrev != null) {
+          const managerUsername = updateData.appointedPrev;
+          if (managerUsername) {
+            await usersCollection.updateOne(
+              { username: managerUsername },
+              { $inc: { load: updateData.loadChange } }
+            );
+          }
+        }
+
+        if (updateData.appointed != null) {
+          await usersCollection.updateOne(
+            { username: updateData.appointed },
+            { $inc: { load: updateData.loadChange } }
+          );
+        }
 
         return res.status(200).json({ message: 'Заявка успешно обновлена' });
       } catch (error) {
         console.error('[ERROR] Failed to update application:', error);
         return res.status(500).json({ message: 'Ошибка при обновлении заявки' });
       }
-    },
+    }
   }
 }

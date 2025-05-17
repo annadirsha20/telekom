@@ -24,8 +24,6 @@ export class AuthPage {
     this.http.post(`${this.apiUrl}/login`, this.loginData, { withCredentials: true })
       .subscribe({
         next: (response: any) => {
-          console.log("TEST")
-          console.log(response)
           this.authService.currentUser = response.user;
           this.authService.userType = response.type;
           this.authService.userPriority = response.priority;

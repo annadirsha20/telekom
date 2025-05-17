@@ -1,6 +1,6 @@
 import express from 'express';
 
-export function createUserController(collectionUsers: any) {
+export function createUserController(collectionUsers: any, devicesCollection: any) {
   return {
     login: async (req: express.Request, res: express.Response) => {
       const { login, password } = req.body;
@@ -32,6 +32,23 @@ export function createUserController(collectionUsers: any) {
       } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Ошибка сервера' });
+      }
+    },
+
+    getDevicesByUser: async (req: express.Request, res: express.Response) => {
+      try {
+        const { user } = req.query;
+
+        if (!user) {
+          return res.status(400).json({ message: 'Пользователь не указан' });
+        }
+
+        const devices = await devicesCollection.find({ username: user }).toArray();
+
+        return res.status(200).json(devices);
+      } catch (error) {
+        console.error('[ERROR] Failed to fetch devices:', error);
+        return res.status(500).json({ message: 'Ошибка при получении устройств' });
       }
     }
   };

@@ -1,0 +1,51 @@
+.site-footer {
+  height: 10vh;
+  background-color: #2d4a53;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 10%;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.footer-content {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer-contact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  justify-content: center;
+}
+
+.footer-icon {
+  font-size: 20px;
+  color: white;
+}
+
+.phone-icon { color: gold; }
+.email-icon { color: lightblue; }
+.telegram-icon { color: #0088cc; }
+
+.footer-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #3c9ce6;
+  }
+}

@@ -9,6 +9,7 @@ interface Application {
   status: 'new' | 'in progress' | 'closed';
   owner: string;
   createdAt: Date;
+  appointed: string;
   isVip: boolean;
 }
 
@@ -60,18 +61,20 @@ export class LkManagerAppsAllPage implements OnInit {
   }
 
   assignToMe(app: Application) {
-    const currentUser = this.authService.currentUser;
-    if (!currentUser) {
-      alert('Вы не авторизованы');
-      return;
-    }
+    const confirmAssign = confirm('Вы действительно хотите взять эту заявку?');
+    if (!confirmAssign) return;
+
+    const isVip = app.isVip;
+    const cost = isVip ? 5 : 1;
 
     this.http.patch(`http://localhost:5000/api/applications/set/${app._id}`, {
-      appointed: currentUser
+      appointed: this.authService.currentUser,
+      loadChange: cost,
+      appointedPrev: null
     }, { withCredentials: true }).subscribe({
       next: () => {
-        this.loadApplications();
-        alert('Заявка назначена вам');
+        console.log('Заявка назначена вам');
+        this.loadApplications(); // обновляем список
       },
       error: (err) => {
         console.error('Ошибка при назначении заявки', err);

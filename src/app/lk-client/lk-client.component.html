@@ -21,14 +21,18 @@
 
           <div class="form-group">
             <label for="description">Описание</label>
-            <textarea id="description"  name="description" rows="5" [(ngModel)]="description" required></textarea>
+            <textarea id="description" name="description" rows="5" [(ngModel)]="description" required></textarea>
           </div>
 
           <button type="submit" class="submit-btn">Отправить</button>
         </form>
+
+        <!-- Новая кнопка -->
+        <button class="device-btn" (click)="openModal()">Купленные устройства</button>
       </div>
     </div>
 
+    <!-- Список заявок -->
     <div class="apps-section">
       <div class="applications">
         <div *ngFor="let app of applications" class="app">
@@ -39,6 +43,38 @@
           <p>{{ app.text }}</p>
           <small>Создано: {{ app.createdAt | date:'dd.MM.yyyy HH:mm' }}</small>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="showModal" (clickOutside)="closeModal()">
+    <div class="modal-content">
+      <span class="close-btn" (click)="closeModal()">&times;</span>
+
+      <h3>Купленные устройства</h3>
+
+      <div class="carousel-container">
+        <!-- Кнопка "назад" -->
+        <button class="carousel-btn prev" (click)="prevDevice()" [disabled]="currentIndex === 0">&#10094;</button>
+
+        <div class="carousel-slide">
+          <div class="device-row">
+            <div *ngFor="let device of visibleDevices" class="device-card">
+              <img 
+                [src]="'assets/img/devices/' + device.deviceName + '.webp'" 
+                [alt]="device.deviceName"
+                class="device-img"
+              >
+              <p class="device-name">{{ device.deviceName }}</p>
+              <p class="device-count" *ngIf="device.count > 1">x{{ device.count }}</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-btn next" (click)="nextDevice()" 
+                [disabled]="currentIndex >= devicesCount.length - 1">
+          &#10095;
+        </button>
       </div>
     </div>
   </div>

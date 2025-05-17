@@ -9,10 +9,12 @@
 
     <!-- Основная часть с заявками -->
     <div class="apps-section">
-      <p class="title-lk">Мои заявки</p>
-
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <p class="title-lk">Мои заявки</p>
+        <span class="username">{{ authService.currentUser }}</span>
+      </div>
       <div class="applications">
-        <div *ngFor="let app of applications" class="app">
+        <div *ngFor="let app of applications" class="app" [class.vip]="app.isVip">
           <div class="app-header">
             <span class="status-indicator" [class]="getStatusClass(app.status)"></span>
             <p class="title-app">{{ app.title }}</p>

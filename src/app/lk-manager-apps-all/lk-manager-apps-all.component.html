@@ -12,7 +12,7 @@
       <p class="title-lk">Все заявки</p>
 
       <div class="applications">
-        <div *ngFor="let app of applications" class="app">
+        <div *ngFor="let app of applications" class="app" [class.vip]="app.isVip">
           <div class="app-header">
             <span class="status-indicator" [class]="getStatusClass(app.status)"></span>
             <p class="title-app">{{ app.title }}</p>

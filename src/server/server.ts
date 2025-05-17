@@ -39,12 +39,14 @@ APP.use((req, res, next) => {
 const clientDB = new MongoClient('mongodb://127.0.0.1:27017/');
 let collectionUsers: any;
 let collectionApplications: any;
+let devicesCollection: any;
 
 APP.listen(PORT, async () => {
   await clientDB.connect();
   const db = clientDB.db('users');
   collectionUsers = db.collection('users');
   collectionApplications = db.collection('applications');
+  devicesCollection = db.collection('devices');
   console.log(`Server running on port ${PORT}`);
 });
 
@@ -54,8 +56,17 @@ APP.post('/api/login', (req, res) => {
     return res.status(503).json({ message: 'Database not connected yet' });
   }
 
-  const userController = createUserController(collectionUsers);
+  const userController = createUserController(collectionUsers, devicesCollection);
   userController.login(req, res);
+});
+
+APP.get('/api/devices', (req, res) => {
+  if (!collectionUsers) {
+    return res.status(503).json({ message: 'Database not connected yet' });
+  }
+
+  const userController = createUserController(collectionUsers, devicesCollection);
+  userController.getDevicesByUser(req, res);
 });
 
 APP.get('/api/applications', (req, res) => {

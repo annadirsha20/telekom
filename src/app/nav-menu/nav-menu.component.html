@@ -4,8 +4,8 @@
 
     <div class="nav-menu-container__section">
       <a href="#about" class="nav-menu-container__section--attr">О нас</a>
-      <div class="nav-menu-container__section--attr">Услуги</div>
-      <div class="nav-menu-container__section--attr">Контакты</div>
+      <a href="#goods" class="nav-menu-container__section--attr">Товары</a>
+      <a href="#contacts" class="nav-menu-container__section--attr">Контакты</a>
     </div>
 
     <div *ngIf="authService.currentUser; else loginLink" class="nav-menu-container__section--entrance user-profile">
@@ -34,3 +34,5 @@
 </div>
 
 <app-about></app-about>
+<app-goods></app-goods>
+<app-contacts></app-contacts>
